@@ -4,12 +4,14 @@ const app = express();
 const cors = require("cors");
 const { hashSync, compareSync } = require("bcrypt")
 const User = require("./models/database.model");
+const passport = require("passport");
 const jwt = require("jsonwebtoken")
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("views"))
 app.use(cors());
+app.use(passport.initialize());
 
+require("./middleware/passport.middleware")
 app.get("/login", async (req, res) => {
     res.render("login");
 })
@@ -49,5 +51,7 @@ app.post("/login", async (req, res) => {
             res.status(200).send({ success: true, message: "Login Success", token: "Bearer " + token });
         })
 })
+
+app.get("/protected", passport.authenticate("jwt", { session: false }))
 app.listen(8000, () =>
     console.log("listening..."))
