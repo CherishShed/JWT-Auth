@@ -38,6 +38,7 @@ app.post("/login", async (req, res) => {
 
     User.findOne({ username: req.body.username })
         .then((user) => {
+            console.log(user)
             if (!user) {
                 return res.status(401).send({ success: false, message: "User not found" })
             }
@@ -53,8 +54,13 @@ app.post("/login", async (req, res) => {
 })
 
 app.get("/protected", passport.authenticate("jwt", { session: false }), (req, res) => {
-    console.log(req.user);
-    res.send("done");
+    // console.log(req.user);
+    return res.status(200).send({
+        success: true,
+        user: {
+            id: req.user._id, username: req.user.username
+        }
+    })
 })
 app.listen(8000, () =>
     console.log("listening..."))
