@@ -15,7 +15,11 @@ passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
             }
             if (user) {
                 console.log(user)
-                return done(null, user);
+                const userData = {
+                    _id: user.id,
+                    username: user.username
+                }
+                return done(null, userData);
             } else {
                 return done(null, false);
 

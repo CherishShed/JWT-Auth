@@ -52,6 +52,9 @@ app.post("/login", async (req, res) => {
         })
 })
 
-app.get("/protected", passport.authenticate("jwt", { session: false }))
+app.get("/protected", passport.authenticate("jwt", { session: false }), (req, res) => {
+    console.log(req.user);
+    res.send("done");
+})
 app.listen(8000, () =>
     console.log("listening..."))
