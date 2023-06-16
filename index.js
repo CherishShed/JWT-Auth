@@ -54,11 +54,12 @@ app.post("/login", async (req, res) => {
 })
 
 app.get("/protected", passport.authenticate("jwt", { session: false }), (req, res) => {
-    // console.log(req.user);
+    console.log("done");
     return res.status(200).send({
         success: true,
         user: {
-            id: req.user._id, username: req.user.username
+            id: req.user._id,
+            username: req.user.username
         }
     })
 })
